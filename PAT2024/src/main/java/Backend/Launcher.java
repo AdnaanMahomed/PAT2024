@@ -5,6 +5,8 @@
 package Backend;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,13 +15,26 @@ import java.util.logging.Logger;
  * @author Adnaa
  */
 public class Launcher {
+    public static Process p;
+    private static LocalTime startTime;
+    private static LocalTime endTime;
 
-    public void runGame(String game) {
+    public static void runGame(String game) {
         try {
             Runtime play = Runtime.getRuntime();
-            Process p = play.exec(game);
+            p = play.exec(game);
         } catch (IOException ex) {
             Logger.getLogger(Launcher.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public static void endGame(){
+        p.destroy();
+    }
+    
+    public static LocalTime getTime(){
+        LocalTime playTime = null;
+        Duration.between(startTime, endTime).addTo(playTime);
+        return playTime;
     }
 }
